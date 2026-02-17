@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeKit Blog - Development Insights & Updates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+
+        .blog-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .blog-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.7);
+            font-weight: 400;
+        }
+
+        /* Navigation */
+        .blog-nav {
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #a78bfa;
+        }
+
+        .search-box {
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            width: 280px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #a78bfa;
+        }
+
+        /* Tag Filter */
+        .tag-filter {
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-label {
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .tag-button {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .tag-button:hover {
+            background: rgba(255,255,255,0.1);
+            color: #a78bfa;
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+
+        .tag-button.active {
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Blog Posts */
+        .posts-container {
+            margin-bottom: 60px;
+        }
+
+        .post-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(167, 139, 250, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .post-date {
+            font-weight: 500;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .post-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .post-excerpt {
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .post-tag {
+            padding: 4px 10px;
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 12px;
+            color: #a78bfa;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .read-more {
+            color: #a78bfa;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #7c3aed;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255,255,255,0.6);
+            display: none;
+        }
+
+        .empty-state.show {
+            display: block;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #a78bfa;
+        }
+
+        .copyright {
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .blog-title {
+                font-size: 2rem;
+            }
+
+            .blog-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .blog-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .tag-filter {
+                justify-content: center;
+            }
+
+            .post-card {
+                padding: 24px;
+            }
+
+            .post-title {
+                font-size: 1.5rem;
+            }
+
+            .post-meta {
+                flex-wrap: wrap;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="blog-title">VibeKit Blog</h1>
+            <p class="blog-subtitle">Development insights, product updates, and engineering stories</p>
+        </header>
+
+        <nav class="blog-nav">
+            <ul class="nav-links">
+                <li><a href="#all">All Posts</a></li>
+                <li><a href="#tutorials">Tutorials</a></li>
+                <li><a href="#updates">Updates</a></li>
+                <li><a href="#engineering">Engineering</a></li>
+            </ul>
+            <input type="text" class="search-box" placeholder="Search posts..." id="searchInput">
+        </nav>
+
+        <div class="tag-filter">
+            <span class="filter-label">Filter by tag:</span>
+            <button class="tag-button active" data-tag="all">All</button>
+            <button class="tag-button" data-tag="javascript">JavaScript</button>
+            <button class="tag-button" data-tag="react">React</button>
+            <button class="tag-button" data-tag="nodejs">Node.js</button>
+            <button class="tag-button" data-tag="devops">DevOps</button>
+            <button class="tag-button" data-tag="ai">AI</button>
+            <button class="tag-button" data-tag="performance">Performance</button>
+        </div>
+
+        <main class="posts-container" id="postsContainer">
+            <article class="post-card" data-tags="javascript,react">
+                <div class="post-meta">
+                    <span class="post-date">February 15, 2026</span>
+                    <div class="post-author">
+                        <div class="author-avatar">SK</div>
+                        <span>Sarah Kim</span>
+                    </div>
+                </div>
+                <h2 class="post-title">Building Scalable React Components with TypeScript</h2>
+                <p class="post-excerpt">Learn how to create reusable, type-safe React components that scale with your application. We'll explore advanced patterns, performance optimizations, and best practices for enterprise-level development.</p>
+                <div class="post-tags">
+                    <span class="post-tag">JavaScript</span>
+                    <span class="post-tag">React</span>
+                    <span class="post-tag">TypeScript</span>
+                </div>
+                <a href="#" class="read-more">Read more →</a>
+            </article>
+
+            <article class="post-card" data-tags="nodejs,performance">
+                <div class="post-meta">
+                    <span class="post-date">February 12, 2026</span>
+                    <div class="post-author">
+                        <div class="author-avatar">MR</div>
+                        <span>Mike Rodriguez</span>
+                    </div>
+                </div>
+                <h2 class="post-title">Optimizing Node.js Applications for Production</h2>
+                <p class="post-excerpt">Discover proven techniques to boost your Node.js application performance. From memory management to clustering, we cover everything you need to handle high-traffic scenarios with confidence.</p>
+                <div class="post-tags">
+                    <span class="post-tag">Node.js</span>
+                    <span class="post-tag">Performance</span>
+                    <span class="post-tag">Backend</span>
+                </div>
+                <a href="#" class="read-more">Read more →</a>
+            </article>
+
+            <article class="post-card" data-tags="devops,ai">
+                <div class="post-meta">
+                    <span class="post-date">February 8, 2026</span>
+                    <div class="post-author">
+                        <div class="author-avatar">AL</div>
+                        <span>Alex Lee</span>
+                    </div>
+                </div>
+                <h2 class="post-title">AI-Powered DevOps: Automating Code Reviews and Deployments</h2>
+                <p class="post-excerpt">Explore how artificial intelligence is revolutionizing DevOps workflows. Learn to implement AI-driven code analysis, automated testing strategies, and intelligent deployment pipelines.</p>
+                <div class="post-tags">
+                    <span class="post-tag">DevOps</span>
+                    <span class="post-tag">AI</span>
+                    <span class="post-tag">Automation</span>
+                </div>
+                <a href="#" class="read-more">Read more →</a>
+            </article>
+
+            <article class="post-card" data-tags="javascript,performance">
+                <div class="post-meta">
+                    <span class="post-date">February 5, 2026</span>
+                    <div class="post-author">
+                        <div class="author-avatar">ED</div>
+                        <span>Emily Davis</span>
+                    </div>
+                </div>
+                <h2 class="post-title">Web Performance: The Complete Guide to Core Web Vitals</h2>
+                <p class="post-excerpt">Master the art of web performance optimization with our comprehensive guide to Core Web Vitals. Learn practical techniques to improve loading speed, interactivity, and visual stability.</p>
+                <div class="post-tags">
+                    <span class="post-tag">JavaScript</span>
+                    <span class="post-tag">Performance</span>
+                    <span class="post-tag">Web Vitals</span>
+                </div>
+                <a href="#" class="read-more">Read more →</a>
+            </article>
+
+            <article class="post-card" data-tags="react,nodejs">
+                <div class="post-meta">
+                    <span class="post-date">February 1, 2026</span>
+                    <div class="post-author">
+                        <div class="author-avatar">DT</div>
+                        <span>David Thompson</span>
+                    </div>
+                </div>
+                <h2 class="post-title">Full-Stack Development with React and Node.js: A Complete Workflow</h2>
+                <p class="post-excerpt">Build modern web applications from scratch with this comprehensive guide. We'll create a real-world project covering authentication, database design, API development, and deployment strategies.</p>
+                <div class="post-tags">
+                    <span class="post-tag">React</span>
+                    <span class="post-tag">Node.js</span>
+                    <span class="post-tag">Full-Stack</span>
+                </div>
+                <a href="#" class="read-more">Read more →</a>
+            </article>
+        </main>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">🔍</div>
+            <h3>No posts found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Archive</a>
+                <a href="#">RSS</a>
+                <a href="#">Newsletter</a>
+                <a href="#">Contact</a>
+            </div>
+            <p class="copyright">&copy; 2026 VibeKit Blog. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const postsContainer = document.getElementById('postsContainer');
+        const emptyState = document.getElementById('emptyState');
+        const allPosts = Array.from(document.querySelectorAll('.post-card'));
+
+        // Tag filtering
+        const tagButtons = document.querySelectorAll('.tag-button');
+        let activeTag = 'all';
+        let searchTerm = '';
+
+        // Initialize
+        updateDisplay();
+
+        // Search input handler
+        searchInput.addEventListener('input', function() {
+            searchTerm = this.value.toLowerCase().trim();
+            updateDisplay();
+        });
+
+        // Tag button handlers
+        tagButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active tag
+                tagButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                activeTag = this.getAttribute('data-tag');
+                
+                updateDisplay();
+            });
+        });
+
+        function updateDisplay() {
+            let visiblePosts = 0;
+            
+            allPosts.forEach(post => {
+                const shouldShow = shouldShowPost(post);
+                
+                if (shouldShow) {
+                    post.style.display = 'block';
+                    post.classList.add('fade-in');
+                    visiblePosts++;
+                } else {
+                    post.style.display = 'none';
+                    post.classList.remove('fade-in');
+                }
+            });
+
+            // Show/hide empty state
+            if (visiblePosts === 0) {
+                postsContainer.style.display = 'none';
+                emptyState.classList.add('show');
+            } else {
+                postsContainer.style.display = 'block';
+                emptyState.classList.remove('show');
+            }
+        }
+
+        function shouldShowPost(post) {
+            // Check tag filter
+            const postTags = post.getAttribute('data-tags').split(',');
+            const tagMatch = activeTag === 'all' || postTags.includes(activeTag);
+            
+            // Check search term
+            const postContent = (
+                post.querySelector('.post-title').textContent + ' ' +
+                post.querySelector('.post-excerpt').textContent + ' ' +
+                post.querySelector('.post-tags').textContent
+            ).toLowerCase();
+            
+            const searchMatch = searchTerm === '' || postContent.includes(searchTerm);
+            
+            return tagMatch && searchMatch;
+        }
+
+        // Navigation link handlers
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from nav links
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                const category = this.getAttribute('href').substring(1);
+                
+                // Map navigation to tags
+                const tagMapping = {
+                    'all': 'all',
+                    'tutorials': 'javascript', // Show JS tutorials
+                    'updates': 'performance', // Show performance updates
+                    'engineering': 'devops' // Show DevOps posts
+                };
+                
+                if (tagMapping[category]) {
+                    // Find and click the corresponding tag button
+                    const targetTag = document.querySelector(`[data-tag="${tagMapping[category]}"]`);
+                    if (targetTag) {
+                        targetTag.click();
+                    }
+                }
+            });
+        });
+
+        // Post card click handlers
+        allPosts.forEach(post => {
+            post.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('read-more')) {
+                    // Simulate navigation to post detail
+                    const title = this.querySelector('.post-title').textContent;
+                    alert(`Opening: ${title}\n\nIn a real application, this would navigate to the full article.`);
+                }
+            });
+        });
+
+        // Remove fade-in class after animation
+        setTimeout(() => {
+            document.querySelectorAll('.post-card').forEach(post => {
+                post.classList.remove('fade-in');
+            });
+        }, 500);
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target && this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
